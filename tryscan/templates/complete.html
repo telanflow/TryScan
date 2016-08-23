@@ -1,0 +1,92 @@
+{% extends "public/base.html" %}
+
+{% block crumbs %}
+<div class="row">
+    <div class="col-lg-12">
+        <!--<h3 class="page-header"><i class="fa fa-credit-card"></i>Invoice</h3>-->
+        <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="{{ url_for('list') }}">任务队列</a></li>
+            <li><i class="fa fa-credit-card"></i>已经完成</li>
+        </ol>
+    </div>
+</div>
+{% endblock crumbs %}
+
+
+{% block body %}
+<div class="invoice">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-bordered table-responsive table-hover">
+                <thead>
+                    <tr>
+                        <th class="center">ID</th>
+                        <th>Domain</th>
+                        <th style="max-width: 60px;">Method</th>
+                        <th>Url</th>
+                        <th style="min-width: 200px;">Payload</th>
+                        <th class="right">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in lists %}
+                    <tr>
+                        <td class="center task_id" data-status="1">{{ item.id }}</td>
+                        <td>{{ item.domain }}</td>
+                        <td>
+                            {% if item.method == "GET" %}
+                            <span class="label label-primary">{{ item.method }}</span>
+                            {% else %}
+                            <span class="label label-info">{{ item.method }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.target_url }}</td>
+                        <td>
+                            {% if item.payload %}
+                                <span class="label label-info">{{ item.payload[0]['place'] }}</span>
+                                <span class="label label-success">{{ item.payload[0]['parameter'] }}</span>
+                                <span class="label label-default">{{ item.payload[0]['suffix'] }}</span>
+                            {% else %}
+                                {% if item.status == 1 %}
+                                <span class="label label-default">暂无</span>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td class="right" id="task_{{ item.id }}">
+                            {% if item.status == 0 %}
+                            <span class="label label-default">等待</span>
+                            {% elif item.status == 1 %}
+                            <span class="label label-success">扫描完成</span>
+                            {% elif item.status == 2 %}
+                            <span class="label label-info">任务创建成功</span>
+                            {% elif item.status == 3 %}
+                            <span class="label label-primary">扫描中</span>
+                            {% elif item.status == 4 %}
+                            <span class="label label-danger">扫描失败</span>
+                            {% elif item.status == -1 %}
+                            <span class="label label-warning">任务未运行</span>
+                            {% elif item.status == -2 %}
+                            <span class="label label-info">进入队列</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="9">暂无任务</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-xs-12 recap">
+                    <div class="pull-right">
+                    {{ pagination.links }}
+                    </div>
+                </div><!--/col-->
+
+            </div><!--/row-->
+        </div>
+    </div>
+</div><!--/invoice-->
+{% endblock %}

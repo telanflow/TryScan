@@ -1,0 +1,186 @@
+{% extends "public/base.html" %}
+
+{% block crumbs %}
+<div class="row">
+    <div class="col-lg-12">
+        <!--<h3 class="page-header"><i class="fa fa-credit-card"></i>Invoice</h3>-->
+        <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="{{ url_for('list') }}">任务队列</a></li>
+            <li><i class="fa fa-credit-card"></i>存在注入</li>
+        </ol>
+    </div>
+</div>
+{% endblock crumbs %}
+
+
+{% block body %}
+<div class="invoice">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            任务列表
+        </div>
+        <div class="panel-body">
+            <table class="table table-bordered table-responsive table-hover">
+                <thead>
+                    <tr>
+                        <th class="center">ID</th>
+                        <th>Domain</th>
+                        <th style="max-width: 60px;">Method</th>
+                        <th>Url</th>
+                        <th style="min-width: 200px;">Payload</th>
+                        <th class="center">Status</th>
+                        <th class="right">Operation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in lists %}
+                    <tr>
+                        <td class="center task_id" data-status="1">{{ item.id }}</td>
+                        <td>{{ item.domain }}</td>
+                        <td>
+                            {% if item.method == "GET" %}
+                            <span class="label label-primary">{{ item.method }}</span>
+                            {% else %}
+                            <span class="label label-info">{{ item.method }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.target_url }}</td>
+                        <td>
+                            {% if item.payload %}
+                                {% for t in item.payload %}
+                                    <div>
+                                        <span class="label label-warning">形式：{{ t['place'] }}</span>
+                                        <span class="label label-danger">参数：{{ t['parameter'] }}</span>
+                                        <span class="label label-default">尝试：{{ t['suffix'] }}</span>
+                                        <span class="label label-primary">DB：{{ t['dbms'] }}</span>
+                                        <span class="label label-info">OS：{{ t['os'] }}</span>
+                                    </div><br>
+                                {% endfor %}
+                            {% else %}
+                                {% if item.status == 1 %}
+                                <span class="label label-default">暂无</span>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td class="center" id="task_{{ item.id }}">
+                            {% if item.status == 0 %}
+                            <span class="label label-default">等待</span>
+                            {% elif item.status == 1 %}
+                            <span class="label label-success">扫描完成</span>
+                            {% elif item.status == 2 %}
+                            <span class="label label-info">任务创建成功</span>
+                            {% elif item.status == 3 %}
+                            <span class="label label-primary">扫描中</span>
+                            {% elif item.status == 4 %}
+                            <span class="label label-danger">扫描失败</span>
+                            {% elif item.status == -1 %}
+                            <span class="label label-warning">任务未运行</span>
+                            {% elif item.status == -2 %}
+                            <span class="label label-info">进入队列</span>
+                            {% endif %}
+                        </td>
+                        <td class="right">
+                            <button class="btn btn-sm btn-primary btn-view" data-id="{{ item.id }}">查看详情</button>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="9">暂无任务</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-xs-12 recap">
+                    <div class="pull-right">
+                    {{ pagination.links }}
+                    </div>
+                </div><!--/col-->
+
+            </div><!--/row-->
+        </div>
+    </div>
+</div><!--/invoice-->
+
+<div class="modal fade" id="modal-view">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">TaskInfo</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form action="" class="form-horizontal" method="post">
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label">Method</label>
+                                <div class="col-xs-10">
+                                    <span class="label label-primary span-method"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label">Url</label>
+                                <div class="col-xs-10">
+                                    <input type="text" class="form-control input-sm" name="url">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label">Referer</label>
+                                <div class="col-xs-10">
+                                    <input type="text" class="form-control input-sm" name="referer">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label">Params</label>
+                                <div class="col-xs-10">
+                                    <input type="text" class="form-control input-sm" name="params">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label">Headers</label>
+                                <div class="col-xs-10">
+                                    <textarea class="form-control" name="header" style="width: 100%; height: 220px;"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label">User_Agent</label>
+                                <div class="col-xs-10">
+                                    <input type="text" class="form-control input-sm" name="user_agent">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label">Cookie</label>
+                                <div class="col-xs-10">
+                                    <textarea class="form-control" name="cookie" style="width: 100%; height: 220px;"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-xs-2 control-label">Payload</label>
+                                <div class="col-xs-10" id="payload-panel">
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/injection.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TryScan - 自动化扫描工具</title>
+
+    <!-- Import google fonts - Heading first/ text second -->
+    <link rel='stylesheet' type='text/css' href='http://fonts.useso.com/css?family=Open+Sans:400,700|Droid+Sans:400,700' />
+    <!--[if lt IE 9]>
+    <link href="http://fonts.useso.com/css?family=Open+Sans:400" rel="stylesheet" type="text/css" />
+    <link href="http://fonts.useso.com/css?family=Open+Sans:700" rel="stylesheet" type="text/css" />
+    <link href="http://fonts.useso.com/css?family=Droid+Sans:400" rel="stylesheet" type="text/css" />
+    <link href="http://fonts.useso.com/css?family=Droid+Sans:700" rel="stylesheet" type="text/css" />
+    <![endif]-->
+
+    <!-- Favicon and touch icons -->
+    <link rel="shortcut icon" href="assets/ico/favicon.ico" type="image/x-icon" />
+
+    <!-- Css files -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='plugin/layer/skin/layer.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/jquery.mmenu.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/add-ons.min.css') }}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Page/Css -->
+    {% block css %}
+
+    {% endblock css %}
+</head>
+
+<body>
+	<!-- start: Header -->
+	{% include "public/header.html" %}
+	<!-- end: Header -->
+
+	<div class="container-fluid content">
+
+        <!-- start: Main Menu -->
+		{% include "public/navi.html" %}
+        <!-- end: Main Menu -->
+
+		<!-- start: Content -->
+		<div class="main ">
+            <!-- 面包屑导航 -->
+			{% block crumbs %}{% endblock %}
+            <!-- 面包屑导航 / End -->
+
+            <!-- Body -->
+            {% block body %}
+            {% endblock %}
+            <!-- Body / End -->
+		</div>
+		<!-- end: Content -->
+		<br><br><br/>
+
+		<!-- Footer -->
+        {% include "public/footer.html" %}
+
+	</div><!--/container-->
+
+	<div class="clearfix"></div>
+
+	<!-- start: JavaScript-->
+	<!--[if !IE]>-->
+    <script src="{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
+	<!--<![endif]-->
+
+	<!--[if IE]>
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+	<![endif]-->
+
+	<!--[if !IE]>-->
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}'>"+"<"+"/script>");
+    </script>
+	<!--<![endif]-->
+
+	<!--[if IE]>
+    <script type="text/javascript">
+    window.jQuery || document.write("<script src='{{ url_for('static', filename='js/jquery.min.js') }}'>"+"<"+"/script>");
+    </script>
+	<![endif]-->
+	<script src="{{ url_for('static', filename='js/jquery-migrate-1.2.1.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+	<!-- page scripts -->
+    <script src="{{ url_for('static', filename='plugin/layer/layer.js') }}"></script>
+
+	<!-- theme scripts -->
+	<script src="{{ url_for('static', filename='js/SmoothScroll.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/jquery.mmenu.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/core.min.js') }}"></script>
+
+	<!-- inline scripts related to this page -->
+    {% block js %}{% endblock js %}
+	<!-- end: JavaScript-->
+
+</body>
+</html>
