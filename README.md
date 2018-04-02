@@ -1,6 +1,6 @@
 ## TryScan - 自动化Sql注入检测工具
   * 通过普通浏览、操作网页，自动检测存在sql注入的漏洞
-  * 浏览器端必须使用：[TryScanClient](https://git.oschina.net/ziiber/TryScanClient)
+  * 浏览器端必须使用：[TryScanClient](https://github.com/ziiber/TryScan-Client)
   * 妈妈再也不用担心我找不到洞洞啦~  躺着也能挖洞
 
 ### 环境
