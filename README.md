@@ -9,10 +9,13 @@
 
 ### 安装使用
 * 安装依赖 pip install -r requirement.txt
+* 启动sqlmap api服务：`python sqlmapapi.py -s`
 * 修改 config.py 配置文件
-* 创建数据库 python manage.py create_all
-* 启动调度器 python scheduler.py 
-* 启动应用 python run.py
+  - 数据库配置
+  - sqlmap api 服务配置
+* 创建数据库 `python manage.py create_all`
+* 启动调度器 `python scheduler.py`
+* 启动应用 `python run.py`
 
 
 ### 开发人员
