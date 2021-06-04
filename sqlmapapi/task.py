@@ -189,31 +189,34 @@ class TaskManage():
             ret = []
             for i in response['data']:
                 values = i['value']
-                for v in values:
-                    item = {}
-                    item['clause'] = v['clause']
-                    item['dbms'] = v['dbms'] # 目标数据库类型  Mysql Oracle Sqlite sql_server
-                    item['dbms_version'] = v['dbms'] # 目标数据库版本
-                    item['os'] = v['os'] # 目标系统
-                    item['parameter'] = v['parameter'] # 注入参数
-                    item['place'] = v['place'] # 注入位置 :Cookie
-                    item['prefix'] = v['prefix'] # 注入的前缀  类似： '
-                    item['ptype'] = v['ptype']
-                    item['suffix'] = v['suffix'] # 注入语句格式  类似： AND '[RANDSTR]'='[RANDSTR]
+                if i['type'] == 1:
+                    for v in values:
+                        item = {}
+                        item['clause'] = v['clause']
+                        item['dbms'] = v['dbms'] # 目标数据库类型  Mysql Oracle Sqlite sql_server
+                        item['dbms_version'] = v['dbms'] # 目标数据库版本
+                        item['os'] = v['os'] # 目标系统
+                        item['parameter'] = v['parameter'] # 注入参数
+                        item['place'] = v['place'] # 注入位置 :Cookie
+                        item['prefix'] = v['prefix'] # 注入的前缀  类似： '
+                        item['ptype'] = v['ptype']
+                        item['suffix'] = v['suffix'] # 注入语句格式  类似： AND '[RANDSTR]'='[RANDSTR]
 
-                    item['data'] = []
-                    if v['data']:
-                        params = v['data']
-                        for d in params:
-                            childParams = {
-                                'title': params[d]['title'],
-                                'payload': params[d]['payload'],
-                                'vector': params[d]['vector'],
-                                'where': params[d]['where']
-                            }
-                            item['data'].append(childParams)
-                    ret.append(item)
-            return ret
+                        item['data'] = []
+                        if v['data']:
+                            params = v['data']
+                            for d in params:
+                                childParams = {
+                                    'title': params[d]['title'],
+                                    'payload': params[d]['payload'],
+                                    'vector': params[d]['vector'],
+                                    'where': params[d]['where']
+                                }
+                                item['data'].append(childParams)
+                        ret.append(item)
+                    return ret
+                else:
+                    continue
         else:
             return []
 
