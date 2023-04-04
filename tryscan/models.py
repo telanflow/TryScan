@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 import time, math
 from tryscan import db
 from flask_login import UserMixin
@@ -12,7 +12,7 @@ __author__ = 'try'
 class TaskQueue(db.Model):
     __table_args__ = {
         'mysql_engine': 'InnoDB',
-        'mysql_charset': 'utf8'
+        'mysql_charset': 'utf8mb4'
     }
     __tablename__ = 'ts_task_queue'
     id          = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -40,7 +40,7 @@ class TaskQueue(db.Model):
 class TaskQueueLog(db.Model):
     __table_args__ = {
         'mysql_engine': 'InnoDB',
-        'mysql_charset': 'utf8'
+        'mysql_charset': 'utf8mb4'
     }
     __tablename__ = 'ts_task_queue_log'
     id          = db.Column(db.Integer, primary_key=True, autoincrement=True)

@@ -45,7 +45,7 @@ def index():
 def list(page=1):
     client_no = current_user.get_id() # 用户ID
     count = TaskQueue.query.filter_by(client_no=client_no).count()
-    paginate = TaskQueue.query.filter_by(client_no=client_no).order_by(TaskQueue.id.desc()).paginate(page, app.config['PAGE_SIZE'], False)
+    paginate = TaskQueue.query.filter_by(client_no=client_no).order_by(TaskQueue.id.desc()).paginate(page=page, per_page=app.config['PAGE_SIZE'], error_out=False)
     pagination = Pagination(page=page, total=count, per_page=app.config['PAGE_SIZE'], bs_version=3)
     list = []
     for i in paginate.items:
@@ -62,8 +62,8 @@ def list(page=1):
 @login_required
 def injection(page=1):
     client_no = current_user.get_id() # 用户ID
-    count = TaskQueue.query.filter('payload != ""').filter_by(status=1, client_no=client_no).count()
-    paginate = TaskQueue.query.filter('payload != ""').filter_by(status=1, client_no=client_no).order_by(TaskQueue.id.desc()).paginate(page, app.config['PAGE_SIZE'], False)
+    count = TaskQueue.query.filter(TaskQueue.payload != '').filter_by(status=1, client_no=client_no).count()
+    paginate = TaskQueue.query.filter(TaskQueue.payload != '').filter_by(status=1, client_no=client_no).order_by(TaskQueue.id.desc()).paginate(page=page, per_page=app.config['PAGE_SIZE'], error_out=False)
     pagination = Pagination(page=page, total=count, per_page=app.config['PAGE_SIZE'], bs_version=3)
     list = []
     for i in paginate.items:
@@ -81,7 +81,7 @@ def injection(page=1):
 def complete(page=1):
     client_no = current_user.get_id() # 用户ID
     count = TaskQueue.query.filter_by(status=1, client_no=client_no).count()
-    paginate = TaskQueue.query.filter_by(status=1, client_no=client_no).order_by(TaskQueue.id.desc()).paginate(page, app.config['PAGE_SIZE'], False)
+    paginate = TaskQueue.query.filter_by(status=1, client_no=client_no).order_by(TaskQueue.id.desc()).paginate(page=page, per_page=app.config['PAGE_SIZE'], error_out=False)
     pagination = Pagination(page=page, total=count, per_page=app.config['PAGE_SIZE'], bs_version=3)
     list = []
     for i in paginate.items:
